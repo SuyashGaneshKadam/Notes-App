@@ -27,7 +27,7 @@ function typeFunction() {
 }
 
 function displayNotes(type) {
-  //   console.log("In generate Notes");
+  //   console.log("In display Notes");
   axios
     .get("/read-notes")
     .then((res) => {
@@ -264,4 +264,103 @@ nav.addEventListener("click", function(event){
     trashButton.style.textDecoration = "underline";
     location.reload();
   }
+})
+
+// Searching 
+
+const searchButton = document.getElementById("search-btn");
+
+searchButton.addEventListener("click", () =>{
+  document.getElementById("notes-list").innerHTML = "";
+  const text = document.getElementById("search-text").value;
+  // console.log(text);
+  if(text.trim() === ""){
+    displayNotes(localStorage.getItem("type"));
+    return;
+  }
+  axios
+    .get("/read-notes")
+    .then((res) => {
+      if (res.data.status !== 200) {
+        alert(res.data.message);
+        return;
+      }
+      const notes = res.data.data;
+      let type = localStorage.getItem("type");
+
+      if (type === "all") {
+        document.getElementById("notes-list").insertAdjacentHTML(
+          "beforeend",
+          notes
+            .map((item) => {
+              if (item.isDeleted || item.archived) return;
+              if(!item.title.toLowerCase().includes(text.toLowerCase()) && !item.content.toLowerCase().includes(text.toLowerCase())) return;
+              let color;
+              if (item.color === "#000000") {
+                color = "white";
+              } else {
+                color = "black";
+              }
+              return `<div class="note-container" style="background-color: ${item.color}; color: ${color}">
+        <h3> ${item.title}</h3>
+        <p> ${item.content} </p>
+        <input type="color" id="color" value=${item.color}/>
+        <button data-id="${item._id}" class="change-color-btn">Apply color</button>
+        <button data-id="${item._id}" class="archive-btn">Archive</button>
+        <button data-id="${item._id}" class="delete-btn">Delete</button>
+        </div>`;
+            })
+            .join("")
+        );
+      } else if (type === "archived") {
+        document.getElementById("notes-list").insertAdjacentHTML(
+          "beforeend",
+          notes
+            .map((item) => {
+              if (!item.archived) return;
+              if(!item.title.toLowerCase().includes(text.toLowerCase()) && !item.content.toLowerCase().includes(text.toLowerCase())) return;
+              if (item.color === "#000000") {
+                color = "white";
+              } else {
+                color = "black";
+              }
+              return `<div class="note-container" style="background-color: ${item.color}; color: ${color}">
+        <h3> ${item.title}</h3>
+        <p> ${item.content} </p>
+        <input type="color" value=${item.color}/>
+        <button data-id="${item._id}" class="archive-btn">Unarchive</button>
+        <button data-id="${item._id}" class="delete-btn">Delete</button>
+        </div>`;
+            })
+            .join("")
+        );
+      } else if (type === "deleted") {
+        document.getElementById("notes-list").insertAdjacentHTML(
+          "beforeend",
+          notes
+            .map((item) => {
+              if (!item.isDeleted) return;
+              if(!item.title.toLowerCase().includes(text.toLowerCase()) && !item.content.toLowerCase().includes(text.toLowerCase())) return;
+              if (item.color === "#000000") {
+                color = "white";
+              } else {
+                color = "black";
+              }
+              return `<div class="note-container" style="background-color: ${item.color}; color: ${color}">
+        <h3> ${item.title}</h3>
+        <p> ${item.content} </p>
+        <input type="color" value=${item.color}/>
+        <button data-id="${item._id}" class="delete-forever-btn">Delete Forever</button>
+        <button data-id="${item._id}" class="delete-btn">Restore</button>
+        </div>`;
+            })
+            .join("")
+        );
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      alert(err.message);
+    });
+  document.getElementById("search-text").value = "";
 })
