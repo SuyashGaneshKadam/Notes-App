@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes App</title>
+    <style>
+      body {
+        background-color: antiquewhite;
+      }
+      nav{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        border-bottom: 2px solid black;
+        border-top: 2px solid black;
+        margin: 2rem 0rem 2rem 0rem;
+        font-size: 20px;
+      }
+      nav p{
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center; font-size: 3rem;">Notes App</h1>
+
+    <nav id="nav">
+      <p class="notes">Notes</p>
+      <p class="archive">Archive</p>
+      <p class="trash">Trash</p>
+    </nav>
+
+    <div>
+      <input placeholder="Enter text to search..." />
+      <button id="search-btn">Search</button>
+    </div>
+
+    <div id="add-note-container">
+      <input id="title" placeholder="Title..." />
+      <input id="content" placeholder="Enter your note..." />
+      <input id="tags" placeholder="Comma separated tags..." />
+      <input id="color" type="color" /> Background Color
+      <input id="archived" type="checkbox" />Archived
+      <button class="add-btn">Add New Note</button>
+    </div>
+
+    <div id="notes-list"></div>
+
+    <form action="/logout" method="POST">
+      <button style="margin-top: 2rem;" onclick="localStorage.removeItem('type')">Logout</button>
+    </form>
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="/browser.js"></script>
+  </body>
+</html>
