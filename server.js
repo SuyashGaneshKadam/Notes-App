@@ -10,6 +10,7 @@ const { userDataValidation } = require("./utils/authUtil");
 const userModel = require("./models/userModel");
 const { isAuth } = require("./middlewares/authMiddleware");
 const noteModel = require("./models/noteModel");
+const {cleanUpBin} = require("./scheduler/cron")
 
 // Constants
 const app = express();
@@ -353,4 +354,5 @@ app.listen(PORT, () => {
     clc.blue("Server started on:"),
     clc.cyan.underline.bold(`http://localhost:${PORT}`)
   );
+  cleanUpBin();
 });

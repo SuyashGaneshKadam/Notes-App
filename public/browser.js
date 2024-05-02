@@ -5,27 +5,24 @@ const trashButton = document.querySelector(".trash");
 window.onload = typeFunction();
 
 function typeFunction() {
-  if (localStorage.getItem("type")) {
-    const type = localStorage.getItem("type");
-    if( type === "all"){
-      notesButton.style.textDecoration = "underline";
-    }
-    else if(type === "archived"){
+  if (localStorage.getItem("type") === "all") {
+    document.getElementById("add-note-container").style.display = "block";
+    notesButton.style.textDecoration = "underline";
+  } else if(localStorage.getItem("type")){
+    document.getElementById("add-note-container").style.display = "none";
+    if(localStorage.getItem("type") === "archived"){
       archiveButton.style.textDecoration = "underline";
     }
     else{
       trashButton.style.textDecoration = "underline";
     }
-    displayNotes(type);
+  }
+  if (localStorage.getItem("type")) {
+    displayNotes(localStorage.getItem("type"));
   } else {
     localStorage.setItem("type", "all");
     notesButton.style.textDecoration = "underline";
     displayNotes(localStorage.getItem("type"));
-  }
-  if (localStorage.getItem("type") === "all") {
-    document.getElementById("add-note-container").style.display = "block";
-  } else {
-    document.getElementById("add-note-container").style.display = "none";
   }
 }
 
