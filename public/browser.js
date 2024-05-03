@@ -65,7 +65,7 @@ function displayNotes(type) {
           "beforeend",
           notes
             .map((item) => {
-              if (!item.archived) return;
+              if (!item.archived || item.isDeleted) return;
               if (item.color === "#000000") {
                 color = "white";
               } else {
@@ -319,7 +319,7 @@ searchButton.addEventListener("click", (event) =>{
           "beforeend",
           notes
             .map((item) => {
-              if (!item.archived) return;
+              if (!item.archived || item.isDeleted) return;
               if(!item.title.toLowerCase().includes(text.toLowerCase()) && !item.content.toLowerCase().includes(text.toLowerCase())) return;
               if (item.color === "#000000") {
                 color = "white";
