@@ -269,6 +269,7 @@ nav.addEventListener("click", function(event){
 // Searching 
 
 const searchButton = document.getElementById("search-btn");
+const clearButton = document.getElementById("clear-btn");
 
 searchButton.addEventListener("click", (event) =>{
   event.preventDefault();
@@ -364,4 +365,9 @@ searchButton.addEventListener("click", (event) =>{
       alert(err.message);
     });
   // document.getElementById("search-text").value = "";
+})
+
+clearButton.addEventListener("click", () =>{
+  document.getElementById("search-text").value = "";
+  searchButton.click();
 })
