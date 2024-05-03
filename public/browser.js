@@ -270,7 +270,8 @@ nav.addEventListener("click", function(event){
 
 const searchButton = document.getElementById("search-btn");
 
-searchButton.addEventListener("click", () =>{
+searchButton.addEventListener("click", (event) =>{
+  event.preventDefault();
   document.getElementById("notes-list").innerHTML = "";
   const text = document.getElementById("search-text").value;
   // console.log(text);
@@ -362,5 +363,5 @@ searchButton.addEventListener("click", () =>{
       console.log(err);
       alert(err.message);
     });
-  document.getElementById("search-text").value = "";
+  // document.getElementById("search-text").value = "";
 })
